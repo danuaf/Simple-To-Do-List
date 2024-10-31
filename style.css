@@ -87,6 +87,12 @@ button.delete-btn:hover {
     text-align: center;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     animation: fadeIn 0.3s ease-out;
+
+}
+
+.modal-content button {
+    width: 100%;
+    margin-top: 5px;
 }
 
 .close-btn {

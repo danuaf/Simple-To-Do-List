@@ -6,7 +6,10 @@ header('Content-Type: application/json');
 
 require_once 'TaskFactory.php';
 require_once 'TaskModel.php';
+require_once 'CategoryFactory.php';
+require_once 'CategoryModel.php';
 require_once 'TaskFilterDecorator.php';
+
 
 $host = 'localhost';
 $db = 'todolist';
@@ -23,6 +26,7 @@ try {
 
 
 $model = new TaskModel($pdo);
+$categoryModel = new CategoryModel($pdo); 
 
 $action = $_GET['action'] ?? '';
 
@@ -35,9 +39,19 @@ switch ($action) {
         $model->addTask($task);
         echo json_encode(['status' => 'success']);
         break;
+    case 'addcategory':
+        $category = $_POST['category'];
+        $category = CategoryFactory::createCategory($category);
+        $categoryModel->addCategory($category);
+        echo json_encode(['status' => 'success']);
+        break;
     case 'get':
         $tasks = $model->getTasks();
         echo json_encode($tasks);
+        break;
+    case 'getcategory':
+        $category = $categoryModel->getCategory();
+        echo json_encode($category);
         break;
     case 'filter':
         $tasks = $model->getTasks();
@@ -55,6 +69,10 @@ switch ($action) {
         break;
     case 'delete':
         $model->deleteTask($_GET['id']);
+        echo json_encode(['status' => 'deleted']);
+        break;
+    case 'deletecategory':
+        $categoryModel->deleteCategory($_GET['name']);
         echo json_encode(['status' => 'deleted']);
         break;
 }

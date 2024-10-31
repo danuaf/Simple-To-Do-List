@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     loadTasks();
+    loadCategory();
 });
 
 document.getElementById('add-category-btn').addEventListener('click', function () {
@@ -13,13 +14,7 @@ document.querySelector('.close-btn').addEventListener('click', function () {
 document.getElementById('save-category-btn').addEventListener('click', function () {
     const newCategory = document.getElementById('new-category').value;
     if (newCategory) {
-        const categoryOption = document.createElement('option');
-        categoryOption.value = newCategory;
-        categoryOption.text = newCategory;
-        document.getElementById('category').appendChild(categoryOption);
-        document.getElementById('filter-category').appendChild(categoryOption.cloneNode(true));
-        document.getElementById('new-category').value = '';
-        document.getElementById('category-modal').style.display = 'none';
+        addCategory(newCategory);
     }
 });
 
@@ -29,14 +24,29 @@ function addTask() {
     const category = document.getElementById('category').value;
     const priority = document.getElementById('priority').value;
 
-    fetch('backend/api.php?action=add', {
+    if (priority != '' && title != '' && category != '') {
+        fetch('backend/api.php?action=add', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `title=${title}&category=${category}&priority=${priority}`
+        })
+            .then(response => response.json())
+            .then(() => {
+                loadTasks();
+            });
+    }
+}
+
+function addCategory(category) {
+
+    fetch('backend/api.php?action=addcategory', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `title=${title}&category=${category}&priority=${priority}`
+        body: `category=${category}`
     })
         .then(response => response.json())
         .then(() => {
-            loadTasks();
+            loadCategory();
         });
 }
 
@@ -46,6 +56,15 @@ function loadTasks() {
         .then(response => response.json())
         .then(tasks => {
             displayTasks(tasks);
+        })
+        .catch(error => console.error('Fetch error:', error));
+}
+
+function loadCategory() {
+    fetch('backend/api.php?action=getcategory')
+        .then(response => response.json())
+        .then(category => {
+            displayCategory(category);
         })
         .catch(error => console.error('Fetch error:', error));
 }
@@ -85,8 +104,46 @@ function displayTasks(tasks) {
     });
 }
 
+function displayCategory(categories) {
+    const categorySelect = document.getElementById('category');
+    const filterCategorySelect = document.getElementById('filter-category');
+
+    categorySelect.innerHTML = '<option value="" disabled selected>Category</option>';
+    filterCategorySelect.innerHTML = '<option value="All" disabled selected>Filter by Category</option>';
+    filterCategorySelect.innerHTML += '<option value="All">All Category</option>';
+
+    categories.forEach(category => {
+        const optionElement = document.createElement('option');
+        optionElement.value = category.category;
+        optionElement.text = category.category;
+
+        categorySelect.appendChild(optionElement.cloneNode(true));
+        filterCategorySelect.appendChild(optionElement.cloneNode(true));
+    });
+
+    const deleteCategoryTable = document.getElementById('categories');
+    deleteCategoryTable.innerHTML = '';
+
+    categories.forEach(category => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+                    <td>${category.category}</td>
+                    <td><button class="delete-btn btn btn-danger" onclick='deleteCategory("${category.id}")'>Delete</button></td>
+                `;
+        deleteCategoryTable.appendChild(row);
+    });
+}
 
 function deleteTask(taskId) {
     fetch(`backend/api.php?action=delete&id=${taskId}`, { method: 'GET' })
         .then(() => loadTasks());
+}
+
+function deleteCategory(name) {
+    fetch(`backend/api.php?action=deletecategory&name=${name}`, { method: 'GET' })
+        .then(() => {
+            alert(`Are you sure bro ?`);
+            loadCategory();
+        })
+        .catch(error => console.error('Delete error:', error));
 }

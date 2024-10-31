@@ -26,7 +26,7 @@
                 <option value="Medium">Medium</option>
                 <option value="High">High</option>
             </select>
-            <button type="submit" onclick="addTask()" class="btn btn-primary">Add Task</button>
+            <button onclick="addTask()" class="btn btn-primary">Add Task</button>
         </form>
 
 
@@ -65,11 +65,25 @@
     <div id="category-modal" class="modal">
         <div class="modal-content">
             <span class="close-btn">&times;</span>
-            <h3>Add New Category</h3>
+            <h3>Manage Categories</h3>
+
             <input type="text" id="new-category" class="form-control mb-3" placeholder="New Category Name">
-            <button id="save-category-btn" class="btn btn-success">Save Category</button>
+            <button id="save-category-btn" class="btn btn-success mb-3">Save Category</button>
+
+            <div class="table-responsive">
+                <table id="categories-table" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Category Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="categories"></tbody>
+                </table>
+            </div>
         </div>
     </div>
+
 
     <script src="script.js"></script>
 </body>
