@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testing</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">To-Do List</h1>
+
+        <form id="task-form" class="form-inline justify-content-center mb-4">
+            <input type="text" id="title" class="form-control mr-2" placeholder="Task Name" required>
+            <select id="category" class="form-control mr-2" required>
+                <option value="" disabled selected>Category</option>
+                <option value="General">General</option>
+            </select>
+            <button type="button" id="add-category-btn" class="btn btn-secondary mr-2">+ Add Category</button>
+            <select id="priority" class="form-control mr-2" required>
+                <option value="" disabled selected>Priority</option>
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+            </select>
+            <button type="submit" class="btn btn-primary">Add Task</button>
+        </form>
+
+
+        <div id="filter-form" class="form-inline justify-content-center mb-4">
+            <select id="filter-category" class="form-control mr-2">
+                <option value="">Filter by Category</option>
+                <option value="General">General</option>
+            </select>
+            <select id="filter-priority" class="form-control mr-2">
+                <option value="">Filter by Priority</option>
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+            </select>
+            <button onclick="filterTasks()" class="btn btn-info">Apply Filter</button>
+        </div>
+
+        <h2 class="text-center mb-3">Tasks</h2>
+        <div class="table-responsive">
+            <table id="tasks-table" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Task Name</th>
+                        <th>Category</th>
+                        <th>Priority</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="tasks"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="category-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h3>Add New Category</h3>
+            <input type="text" id="new-category" class="form-control mb-3" placeholder="New Category Name">
+            <button id="save-category-btn" class="btn btn-success">Save Category</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
