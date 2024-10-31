@@ -55,21 +55,14 @@ function filterTasks() {
     const filterCategory = document.getElementById('filter-category').value;
     const filterPriority = document.getElementById('filter-priority').value;
 
-    const params = new URLSearchParams();
-    params.append('action', 'filter');
-    if (filterCategory) params.append('category', filterCategory);
-    if (filterPriority) params.append('priority', filterPriority);
-
-    fetch('backend/api.php', {
+    fetch('backend/api.php?action=filter', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: params.toString()
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `category=${filterCategory}&priority=${filterPriority}`
     })
         .then(response => response.json())
         .then(tasks => {
-            displayTasks(tasks);
+            displayTasks(tasks)
         })
         .catch(error => console.error('Fetch error:', error));
 }

@@ -40,21 +40,18 @@ switch ($action) {
         echo json_encode($tasks);
         break;
     case 'filter':
-         $tasks = $model->getTasks();
+        $tasks = $model->getTasks();
         $decorator = new TaskFilterDecorator($tasks);
 
-        if (isset($_GET['category']) && $_GET['category'] !== '') {
-            $tasks = $decorator->filterByCategory($_GET['category']);
+        if (isset($_POST['category']) && $_POST['category'] !== 'All') {
+            $tasks = $decorator->filterByCategory($_POST['category']);
         }
 
-        if (isset($_GET['priority']) && $_GET['priority'] !== '') {
-            $tasks = $decorator->filterByPriority($_GET['priority']);
+        if (isset($_POST['priority']) && $_POST['priority'] !== 'All' ) {
+            $tasks = $decorator->filterByPriority($_POST['priority']);
         }
 
-        echo json_encode($tasks);
-        break;
-        
-        echo json_encode($tasks);
+        echo json_encode(array_values($tasks));
         break;
     case 'delete':
         $model->deleteTask($_GET['id']);

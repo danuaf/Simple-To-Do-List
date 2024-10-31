@@ -26,17 +26,19 @@
                 <option value="Medium">Medium</option>
                 <option value="High">High</option>
             </select>
-            <button type="submit" class="btn btn-primary">Add Task</button>
+            <button type="submit" onclick="addTask()" class="btn btn-primary">Add Task</button>
         </form>
 
 
         <div id="filter-form" class="form-inline justify-content-center mb-4">
             <select id="filter-category" class="form-control mr-2">
-                <option value="">Filter by Category</option>
+                <option value="All" disabled selected>Filter by Category</option>
+                <option value="All">All Category</option>
                 <option value="General">General</option>
             </select>
             <select id="filter-priority" class="form-control mr-2">
-                <option value="">Filter by Priority</option>
+                <option value="All" disabled selected>Filter by Priority</option>
+                <option value="All">All Priority</option>
                 <option value="Low">Low</option>
                 <option value="Medium">Medium</option>
                 <option value="High">High</option>
