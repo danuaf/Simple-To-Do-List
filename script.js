@@ -108,10 +108,6 @@ function displayCategory(categories) {
     const categorySelect = document.getElementById('category');
     const filterCategorySelect = document.getElementById('filter-category');
 
-    categorySelect.innerHTML = '<option value="" disabled selected>Category</option>';
-    filterCategorySelect.innerHTML = '<option value="All" disabled selected>Filter by Category</option>';
-    filterCategorySelect.innerHTML += '<option value="All">All Category</option>';
-
     categories.forEach(category => {
         const optionElement = document.createElement('option');
         optionElement.value = category.category;
